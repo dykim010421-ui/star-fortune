@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Star Fortune</title>
+<meta name="description" content="실제 밤하늘과 오늘의 행성 배치로 읽는 별자리 운세">
+<meta name="theme-color" content="#01030a">
+<!-- 친구들에게 링크로만 공유: 검색엔진 수집 차단 -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta property="og:title" content="Star Fortune — 오늘의 별자리 운세">
+<meta property="og:description" content="실제 별 9천 개와 오늘의 행성 위치로 읽는 운세">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305061a'/%3E%3Cpath d='M16 5l2.2 8.8L27 16l-8.8 2.2L16 27l-2.2-8.8L5 16l8.8-2.2z' fill='%23d8ccff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="sky"></canvas>
+  <div id="labels" aria-hidden="true"></div>
+
+  <!-- 로딩 -->
+  <div id="loading">
+    <svg class="emblem" viewBox="0 0 88 88" aria-hidden="true">
+      <circle cx="44" cy="44" r="42" stroke="rgba(180,160,255,0.14)" stroke-width="0.5" fill="none"/>
+      <circle cx="44" cy="44" r="33" stroke="rgba(180,160,255,0.1)" stroke-width="0.5" stroke-dasharray="3 7" fill="none"/>
+      <polygon points="44,28 46.2,40.6 54,36 47.4,44 54,52 46.2,47.4 44,60 41.8,47.4 34,52 40.6,44 34,36 41.8,40.6" fill="rgba(210,195,255,0.8)"/>
+      <circle cx="44" cy="2" r="2.5" fill="rgba(200,185,255,0.8)"/>
+      <circle cx="82.5" cy="28" r="1.8" fill="rgba(180,165,255,0.55)"/>
+      <circle cx="44" cy="86" r="2" fill="rgba(190,175,255,0.65)"/>
+      <circle cx="5.5" cy="60" r="1.5" fill="rgba(160,145,255,0.4)"/>
+    </svg>
+    <div class="loading-title">Star Fortune</div>
+    <div class="loading-sub" id="loading-sub">별 9,096개의 빛을 모으는 중</div>
+    <div class="loading-bar"><div></div></div>
+  </div>
+
+  <!-- 상단 바 -->
+  <header id="topbar">
+    <div class="brand">
+      <div class="brand-name">Star Fortune</div>
+      <div class="brand-date" id="today"></div>
+      <div class="brand-sky" id="today-sky"></div>
+    </div>
+    <div class="top-actions">
+      <button class="pill" id="mine-btn" hidden></button>
+      <button class="icon-btn" id="birth-btn" data-icon="cake" aria-label="생일 설정"></button>
+      <button class="icon-btn" id="list-btn" data-icon="menu" aria-label="별자리 목록"></button>
+    </div>
+  </header>
+
+  <div id="hint">별자리를 눌러 오늘의 운세를 확인하세요 <span>·</span> 드래그로 하늘을 둘러보세요</div>
+
+  <div id="corner">
+    <button class="icon-btn" id="rotate-btn" data-icon="pause" aria-label="자동 회전 멈춤"></button>
+  </div>
+
+  <!-- 별자리 목록 -->
+  <aside id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <span class="drawer-title">Zodiac Signs</span>
+      <button class="icon-btn ghost" id="drawer-close" data-icon="x" aria-label="닫기"></button>
+    </div>
+    <div class="drawer-sub">지금 하늘에 떠 있는 천체도 함께 표시돼요</div>
+    <ul id="sign-list"></ul>
+  </aside>
+  <div id="scrim"></div>
+
+  <!-- 생일 입력 -->
+  <div id="birth" role="dialog" aria-modal="true" aria-labelledby="birth-title" hidden>
+    <div class="birth-card">
+      <div class="birth-icon" data-icon="sparkles"></div>
+      <h2 id="birth-title">당신의 생일은 언제인가요?</h2>
+      <p>생일을 알려주시면 다음부터 내 별자리로 바로 안내해드려요. 이 기기에만 저장돼요.</p>
+      <div class="birth-row">
+        <select id="birth-month" aria-label="월"></select>
+        <select id="birth-day" aria-label="일"></select>
+      </div>
+      <div class="birth-preview" id="birth-preview"></div>
+      <div class="birth-actions">
+        <button class="btn ghost" id="birth-skip">나중에</button>
+        <button class="btn primary" id="birth-ok">내 별자리 보기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 운세 패널 -->
+  <section id="panel" aria-hidden="true">
+    <div class="panel-scroll" id="panel-scroll">
+      <div class="panel-spacer"></div>
+      <div class="panel-body" id="panel-body"></div>
+    </div>
+  </section>
+
+  <div id="toast" role="status"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
